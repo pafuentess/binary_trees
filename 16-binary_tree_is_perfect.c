@@ -18,22 +18,7 @@ size_t binary_tree_height(const binary_tree_t *tree)
 		return (1 + lheight);
 	return (1 + rheight);
 }
-/**
-* binary_tree_balance - measures the balance factor of a binary tree
-* @tree: node to check
-* Return: 1 or 0
-*/
-int binary_tree_balance(const binary_tree_t *tree)
-{
-	int lheight, rheight;
 
-	if (tree == NULL)
-		return (0);
-	lheight = binary_tree_height(tree->left);
-	rheight = binary_tree_height(tree->right);
-
-	return (lheight - rheight);
-}
 /**
 * binary_tree_is_leaf - checks if a node is a leaf
 * @node: parent node
@@ -47,26 +32,44 @@ int binary_tree_is_leaf(const binary_tree_t *node)
 		return (1);
 	return (0);
 }
-/**
-* binary_tree_is_full - checks if a binary tree is full
-* @tree: node to check
-* Return: 1 or 0
-*/
-int binary_tree_is_full(const binary_tree_t *tree)
-{
-	int lheight, rheight;
 
+/**
+* _pow_recursion - exponential function
+* @x: base factor
+* @y: exponent
+* Return: int the exponential number
+*/
+
+int _pow_recursion(int x, int y)
+{
+	if (y < 0)
+	{
+		return (-1);
+	}
+
+	if (y == 0)
+	{
+		return (1);
+	}
+
+	return (x * (_pow_recursion(x, (y - 1))));
+}
+
+/**
+* binary_tree_size - measures the size of a binary tree
+* @tree: node to check
+* Return: size of tree
+*/
+
+size_t binary_tree_size(const binary_tree_t *tree)
+{
 	if (tree == NULL)
 		return (0);
-	if (binary_tree_is_leaf(tree))
-		return (1);
+	else
+		return (binary_tree_size(tree->left) + 1 + binary_tree_size(tree->right));
 
-	lheight = binary_tree_is_full(tree->right);
-	rheight = binary_tree_is_full(tree->left);
-	if (lheight == 0 || rheight == 0)
-		return (0);
-	return (1);
 }
+
 /**
 * binary_tree_is_perfect - checks if a binary tree is perfect.
 * @tree: pointer to the root node of the tree to check
@@ -74,11 +77,15 @@ int binary_tree_is_full(const binary_tree_t *tree)
 */
 int binary_tree_is_perfect(const binary_tree_t *tree)
 {
+	int nodes_expected = 0, height = 0, real_nodes = 0;
+
 	if (tree == NULL)
 		return (0);
-	if (binary_tree_is_leaf(tree))
-		return (1);
-	if (binary_tree_balance(tree) == 0 && binary_tree_is_full(tree) == 1)
+
+	height = binary_tree_height(tree);
+	nodes_expected = _pow_recursion(2, height) - 1;
+	real_nodes = binary_tree_size(tree);
+	if (nodes_expected == real_nodes)
 		return (1);
 	return (0);
 }
