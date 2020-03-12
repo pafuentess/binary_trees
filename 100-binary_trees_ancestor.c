@@ -17,49 +17,32 @@ size_t binary_tree_depth(const binary_tree_t *tree)
 	}
 	return (cont);
 }
+
 /**
-* binary_tree_is_leaf - checks if a node is a leaf
-* @node: parent node
-* Return: 1 or 0
+* binary_trees_ancestor - finds the lowest common ancestor of two nodes
+* @first: first node
+* @second: second node
+* Return: the lowest common ancestor
 */
-binary_tree_t *binary_trees_ancestor(const binary_tree_t *first, const binary_tree_t *second)
+
+binary_tree_t *binary_trees_ancestor(const binary_tree_t *first,
+const binary_tree_t *second)
 {
-	int i = 0, j = 0, maxf = 0, maxs = 0;
-	binary_tree_t *temp, **fpath, **spath;
+	binary_tree_t *ftemp = (binary_tree_t *)first, *stemp;
 
 	if (first == NULL || second == NULL)
 		return (NULL);
-	maxf = binary_tree_depth(first) + 1, maxs = binary_tree_depth(second) + 1;
-	fpath = malloc(sizeof(binary_tree_t) * maxf);
-	if (fpath == NULL)
-		return (NULL);
-	spath = malloc(sizeof(binary_tree_t) * maxs);
-	if (spath == NULL)
-		return (NULL);
-	temp = (binary_tree_t *)first;
-	while (temp)
+
+	while (ftemp)
 	{
-		fpath[i] = temp;
-		i++;
-		temp = temp->parent;
-	}
-	temp = (binary_tree_t *)second;
-	while (temp)
-	{
-		spath[j] = temp;
-		j++;
-		temp = temp->parent;
-	}
-	j = 0;
-	for (i = 0; i <= maxf; i++)
-	{
-		for (j = 0; j <= maxs; j++)
+		stemp = (binary_tree_t *)second;
+		while (stemp)
 		{
-			if (fpath[i] == spath[j])
-			{
-				return (fpath[i]);
-			}
+			if (ftemp == stemp)
+				return (ftemp);
+			stemp = stemp->parent;
 		}
+		ftemp = ftemp->parent;
 	}
 	return (NULL);
 }
