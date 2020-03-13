@@ -13,8 +13,10 @@ size_t binary_tree_size(const binary_tree_t *tree)
 		return (binary_tree_size(tree->left) + 1 + binary_tree_size(tree->right));
 }
 /**
-* binary_tree_is_leaf - checks if a node is a leaf
-* @node: parent node
+* complete - checks if a binary tree is complete
+* @tree: parent node
+* @n_nodes: number of nodes
+* @index: index
 * Return: 1 or 0
 */
 int complete(const binary_tree_t *tree, int n_nodes, int index)
@@ -24,12 +26,12 @@ int complete(const binary_tree_t *tree, int n_nodes, int index)
 	if (index >= n_nodes)
 		return (0);
 
-	return (complete(tree->left, n_nodes, 2 * index + 1),
+	return (complete(tree->left, n_nodes, 2 * index + 1) &&
 	complete(tree->right, n_nodes, 2 * index + 2));
 }
 /**
-* binary_tree_is_leaf - checks if a node is a leaf
-* @node: parent node
+* binary_tree_is_complete - checks if a binary tree is complete
+* @tree: parent node
 * Return: 1 or 0
 */
 int binary_tree_is_complete(const binary_tree_t *tree)
